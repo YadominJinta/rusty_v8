@@ -51,6 +51,10 @@ jobs:
             target: aarch64-unknown-linux-gnu
             variant: release
 
+          - os: ubuntu-16.04
+            target: aarch64-linux-android
+            variant: debug
+
     env:
       V8_FROM_SOURCE: true
       CARGO_VARIANT_FLAG: ${{ matrix.config.variant == 'release' && '--release' || '' }}
@@ -80,6 +84,10 @@ jobs:
         with:
           python-version: 2.7.x
           architecture: x64
+
+      - name: Debug Action
+        if: matrix.config.target == 'aarch64-linux-android'
+        uses: mxschmitt/action-tmate@v2
 
       - name: Install cross compilation toolchain
         if: matrix.config.target == 'aarch64-unknown-linux-gnu'
